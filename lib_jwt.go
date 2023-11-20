@@ -48,8 +48,8 @@ const (
 )
 
 func New(m *JWTConfig) (*TJWT, error) {
-	j := TJWT{}
 	var (
+		j      TJWT
 		ok     bool
 		method int
 	)
