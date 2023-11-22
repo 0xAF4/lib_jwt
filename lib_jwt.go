@@ -47,6 +47,41 @@ const (
 	PS512
 )
 
+func MapStrToMethod(str string) int {
+	switch str {
+	case "HS256":
+		return HS256
+	case "HS384":
+		return HS384
+	case "HS512":
+		return HS512
+	case "ES256":
+		return ES256
+	case "ES384":
+		return ES384
+	case "ES512":
+		return ES512
+	case "EDDSA":
+		return EDDSA
+	case "NONE":
+		return NONE
+	case "RS256":
+		return RS256
+	case "RS384":
+		return RS384
+	case "RS512":
+		return RS512
+	case "PS256":
+		return PS256
+	case "PS384":
+		return PS384
+	case "PS512":
+		return PS512
+	default:
+		return -1
+	}
+}
+
 func New(m *JWTConfig) (*TJWT, error) {
 	var (
 		j      TJWT
