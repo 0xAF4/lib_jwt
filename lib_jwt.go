@@ -89,10 +89,11 @@ func New(m *JWTConfig) (*TJWT, error) {
 		method int
 	)
 
-	if method, ok = (*m)[Method].(int); !ok {
-		if method == -1 {
-			return nil, fmt.Errorf("Укажите Method")
-		}
+	if method, ok = (*m)[Method].(int); !ok {		
+		return nil, fmt.Errorf("Укажите Method")
+	}
+
+	if method == -1 {
 		return nil, fmt.Errorf("Укажите Method")
 	}
 
