@@ -90,6 +90,9 @@ func New(m *JWTConfig) (*TJWT, error) {
 	)
 
 	if method, ok = (*m)[Method].(int); !ok {
+		if method == -1 {
+			return nil, fmt.Errorf("Укажите Method")
+		}
 		return nil, fmt.Errorf("Укажите Method")
 	}
 
