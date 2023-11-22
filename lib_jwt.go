@@ -55,7 +55,7 @@ func New(m *JWTConfig) (*TJWT, error) {
 	)
 
 	if method, ok = (*m)[Method].(int); !ok {
-		return nil, fmt.Errorf("Укажите Algorithm")
+		return nil, fmt.Errorf("Укажите Method")
 	}
 
 	if j.secretKey, ok = (*m)[SecretKey].([]byte); !ok {
