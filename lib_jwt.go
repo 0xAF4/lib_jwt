@@ -2,6 +2,7 @@ package lib_jwt
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v5"
@@ -48,7 +49,7 @@ const (
 )
 
 func MapStrToMethod(str string) int {
-	switch str {
+	switch strings.ToUpper(str) {
 	case "HS256":
 		return HS256
 	case "HS384":
@@ -89,7 +90,7 @@ func New(m *JWTConfig) (*TJWT, error) {
 		method int
 	)
 
-	if method, ok = (*m)[Method].(int); !ok {		
+	if method, ok = (*m)[Method].(int); !ok {
 		return nil, fmt.Errorf("Укажите Method")
 	}
 
