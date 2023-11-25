@@ -224,12 +224,12 @@ func (c *JWTClaim) GetSUB() string {
 	return (*c)["sub"].(string)
 }
 
-func (c *JWTClaim) GetIAT() time.Time {
-	return (*c)["iat"].(time.Time)
+func (c *JWTClaim) GetIAT() *time.Time {
+	return (*c)["iat"].(*time.Time)
 }
 
-func (c *JWTClaim) GetEXP() time.Time {
-	return (*c)["exp"].(time.Time)
+func (c *JWTClaim) GetEXP() *time.Time {
+	return (*c)["exp"].(*time.Time)
 }
 
 func (c *JWTClaim) GetValue(Key string) interface{} {
