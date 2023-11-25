@@ -54,6 +54,10 @@ var (
 )
 
 func (b JWTBlackList) AddToBlackList(UUID string, expire time.Time) {
+	if expire.Before(time.Now()) {
+		return
+	}
+
 	for token, duration := range b {
 		if duration.Before(time.Now()) {
 			delete(b, token)
