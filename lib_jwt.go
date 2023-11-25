@@ -215,3 +215,23 @@ func (j *TJWT) ParseToken(tokenString *string) (*JWTClaim, error) {
 	cl := JWTClaim(claims)
 	return &cl, err
 }
+
+func (c *JWTClaim) GetUUID() string {
+	return (*c)["uid"].(string)
+}
+
+func (c *JWTClaim) GetSUB() string {
+	return (*c)["sub"].(string)
+}
+
+func (c *JWTClaim) GetIAT() time.Time {
+	return (*c)["iat"].(time.Time)
+}
+
+func (c *JWTClaim) GetEXP() time.Time {
+	return (*c)["exp"].(time.Time)
+}
+
+func (c *JWTClaim) GetValue(Key string) interface{} {
+	return (*c)[Key].(interface{})
+}
