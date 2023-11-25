@@ -11,6 +11,7 @@ import (
 
 type JWTConfig map[int]interface{}
 type JWTClaim map[string]interface{}
+type JWTBlackList map[string]time.Time
 
 type TokenPair struct {
 	AccessToken  *string
@@ -47,6 +48,24 @@ const (
 	PS384
 	PS512
 )
+
+var (
+	BlackList JWTBlackList
+)
+
+func (b JWTBlackList) AddToBlackList(UUID string, expire time.Time) {
+	for token, duration := range b {
+		if duration.Before(time.Now()) {
+			delete(b, token)
+		} 
+
+		if token == UUID {
+			return
+		}
+	}
+
+	b[UUID] = expire
+}
 
 func MapStrToMethod(str string) int {
 	switch strings.ToUpper(str) {
