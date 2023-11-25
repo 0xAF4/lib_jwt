@@ -53,6 +53,10 @@ var (
 	BlackList JWTBlackList
 )
 
+func init() {
+	BlackList = make(JWTBlackList)
+}
+
 func (b JWTBlackList) AddToBlackList(UUID string, expire time.Time) {
 	if expire.Before(time.Now()) {
 		return
@@ -225,11 +229,35 @@ func (c *JWTClaim) GetSUB() string {
 }
 
 func (c *JWTClaim) GetIAT() *time.Time {
-	return (*c)["iat"].(*time.Time)
+	var (
+		ok       bool
+		iatClaim interface{}
+		iatFloat float64
+	)
+	if iatClaim, ok = (*c)["iat"]; !ok {
+		return nil
+	}
+	if iatFloat, ok = iatClaim.(float64); !ok {
+		return nil
+	}
+	iatTime := time.Unix(int64(iatFloat), 0)
+	return &iatTime
 }
 
 func (c *JWTClaim) GetEXP() *time.Time {
-	return (*c)["exp"].(*time.Time)
+	var (
+		ok       bool
+		expClaim interface{}
+		expFloat float64
+	)
+	if expClaim, ok = (*c)["exp"]; !ok {
+		return nil
+	}
+	if expFloat, ok = expClaim.(float64); !ok {
+		return nil
+	}
+	expTime := time.Unix(int64(expFloat), 0)
+	return &expTime
 }
 
 func (c *JWTClaim) GetValue(Key string) interface{} {
