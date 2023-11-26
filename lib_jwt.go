@@ -65,7 +65,7 @@ func (b JWTBlackList) AddToBlackList(UUID string, expire time.Time) {
 	for token, duration := range b {
 		if duration.Before(time.Now()) {
 			delete(b, token)
-		} 
+		}
 
 		if token == UUID {
 			return
@@ -172,7 +172,7 @@ func New(m *JWTConfig) (*TJWT, error) {
 }
 
 func (j *TJWT) GenerateTokenPair(claims *JWTClaim) (*TokenPair, error) {
-	UID := uuid.New()
+	UID := uuid.New().String()
 
 	(*claims)["uid"] = UID
 	(*claims)["sub"] = "access"
@@ -232,15 +232,19 @@ func (c *JWTClaim) GetIAT() *time.Time {
 	var (
 		ok       bool
 		iatClaim interface{}
-		iatFloat float64
+		iatInt   int64
 	)
 	if iatClaim, ok = (*c)["iat"]; !ok {
 		return nil
 	}
-	if iatFloat, ok = iatClaim.(float64); !ok {
+	
+	if iatFloat, ok := iatClaim.(float64); ok {
+		iatInt = int64(iatFloat)
+	} else if iatInt, ok = iatClaim.(int64); !ok {
 		return nil
 	}
-	iatTime := time.Unix(int64(iatFloat), 0)
+
+	iatTime := time.Unix(iatInt, 0)
 	return &iatTime
 }
 
@@ -248,15 +252,19 @@ func (c *JWTClaim) GetEXP() *time.Time {
 	var (
 		ok       bool
 		expClaim interface{}
-		expFloat float64
+		expInt   int64
 	)
 	if expClaim, ok = (*c)["exp"]; !ok {
 		return nil
 	}
-	if expFloat, ok = expClaim.(float64); !ok {
+
+	if expFloat, ok := expClaim.(float64); ok {
+		expInt = int64(expFloat)
+	} else if expInt, ok = expClaim.(int64); !ok {
 		return nil
 	}
-	expTime := time.Unix(int64(expFloat), 0)
+
+	expTime := time.Unix(expInt, 0)
 	return &expTime
 }
 
